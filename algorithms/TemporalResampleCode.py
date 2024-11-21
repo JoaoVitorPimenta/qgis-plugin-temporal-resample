@@ -7,7 +7,7 @@ from qgis.core import (QgsVectorLayer,
                        QgsPointXY,
                        QgsGeometry)
 
-def extract_coord_and_datetime (layer,field):
+def extractCoordAndDatetime (layer,field):
     datas = layer.getFeatures()
     dateTimeList = []
     listX = []
@@ -26,15 +26,24 @@ def create_dataframe (listX,listY,dateTimeList,format):
     df = pd.DataFrame({'y': listY, 'x': listX}, columns=['y', 'x'],index=dateTimeIndex)
     return df
 
-def processDataFrame (df,deltaDateTime,method):
+#reindex dataframe
+#interpolate dataframe
+# resample dataframe
+def reIndexDataFrame (df,deltaDateTime):
     dfWD = df[~df.index.duplicated(keep='first')]
     newIndex = pd.date_range(start=dfWD.index.min(), end=dfWD.index.max(), freq=deltaDateTime +'ms')
     dfReindexed = dfWD.reindex(newIndex)
-    dfInterpolated = dfReindexed.interpolate(method=method)
-    dfResampled = dfInterpolated.resample(deltaDateTime+'ms',origin='start').asfreq()
+    return dfReindexed
+
+def interpolateDataFrame (df,method):
+    dfInterpolated = df.interpolate(method=method)
+    return dfInterpolated
+
+def resampleDataFrame (df, deltaDateTime):
+    dfResampled = df.resample(deltaDateTime+'ms',origin='start').asfreq()
     return dfResampled
     
-def create_layer (df):
+def createLayerWithFeatures (df):
     rLayer = QgsVectorLayer("Point?crs=EPSG:4326", "resampledLayer", "memory")
     pr = rLayer.dataProvider()
 
@@ -54,8 +63,10 @@ def create_layer (df):
     return rLayer
 
 def executePluginForPoints (layer,field,delta,method,format):
-    listX,listY,dateTimeList = extract_coord_and_datetime (layer,field)
+    listX,listY,dateTimeList = extractCoordAndDatetime (layer,field)
     df = create_dataframe (listX,listY,dateTimeList,format)
-    dfPreprocessed = processDataFrame(df,delta,method)
-    layerResampled = create_layer (dfPreprocessed)
+    dfReindexed = reIndexDataFrame(df,delta)
+    dfInterpolated = interpolateDataFrame(dfReindexed,method)
+    dfResampled = resampleDataFrame(dfInterpolated,delta)
+    layerResampled = createLayerWithFeatures (dfResampled)
     return layerResampled
