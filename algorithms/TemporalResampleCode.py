@@ -1,5 +1,4 @@
 import pandas as pd
-import scipy as sp
 from qgis.PyQt.QtCore import QVariant
 from qgis.core import (QgsVectorLayer,
                        QgsField,
@@ -27,7 +26,7 @@ def create_dataframe (listX,listY,dateTimeList,dateTimeFormat):
     """Transform the coordinates
     in a dataframe with datetime as a index."""
     dateTimeIndex = pd.to_datetime(dateTimeList,format=dateTimeFormat)
-    df = pd.DataFrame({'y': listY, 'x': listX}, 
+    df = pd.DataFrame({'y': listY, 'x': listX},
                       columns=['y', 'x'],
                       index=dateTimeIndex)
     return df
@@ -36,8 +35,8 @@ def reIndexDataFrame (df,deltaDateTime):
     """Reindex the DataFrame with the
     all DateTimes that pass through the input delta."""
     dfWD = df[~df.index.duplicated(keep='first')]
-    newIndex = pd.date_range(start=dfWD.index.min(), 
-                             end=dfWD.index.max(), 
+    newIndex = pd.date_range(start=dfWD.index.min(),
+                             end=dfWD.index.max(),
                              freq=deltaDateTime +'ms')
     dfReindexed = dfWD.reindex(newIndex)
     return dfReindexed
@@ -76,11 +75,11 @@ def createLayerWithFeatures (df):
     rLayer.updateExtents()
     return rLayer
 
-def executePluginForPoints (layer,field,delta,method,format):
+def executePluginForPoints (layer,field,delta,method,dateTimeFormat):
     """Use all functions needed to execute
     the Plugin for a point Layer."""
     listX,listY,dateTimeList = extractCoordAndDatetime (layer,field)
-    df = create_dataframe (listX,listY,dateTimeList,format)
+    df = create_dataframe (listX,listY,dateTimeList,dateTimeFormat)
     dfReindexed = reIndexDataFrame(df,delta)
     dfInterpolated = interpolateDataFrame(dfReindexed,method)
     dfResampled = resampleDataFrame(dfInterpolated,delta)
