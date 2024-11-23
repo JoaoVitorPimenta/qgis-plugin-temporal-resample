@@ -8,12 +8,14 @@ from qgis.core import (QgsVectorLayer,
                        QgsGeometry)
 
 def extractCoordAndDatetime (layer,field):
+    """Extract the coordinates
+    and Datetime of each feacture in the layer."""
     datas = layer.getFeatures()
     dateTimeList = []
     listX = []
     listY = []
     for data in datas:
-        dateTime = (data[field[0]])
+        dateTime = data[field[0]]
         dateTimeList.append(dateTime)
         X = data.geometry().asPoint().x()
         Y = data.geometry().asPoint().y()
@@ -21,29 +23,41 @@ def extractCoordAndDatetime (layer,field):
         listY.append(Y)
     return listX,listY,dateTimeList
 
-def create_dataframe (listX,listY,dateTimeList,format):
-    dateTimeIndex = pd.to_datetime(dateTimeList,format=format)
-    df = pd.DataFrame({'y': listY, 'x': listX}, columns=['y', 'x'],index=dateTimeIndex)
+def create_dataframe (listX,listY,dateTimeList,dateTimeFormat):
+    """Transform the coordinates
+    in a dataframe with datetime as a index."""
+    dateTimeIndex = pd.to_datetime(dateTimeList,format=dateTimeFormat)
+    df = pd.DataFrame({'y': listY, 'x': listX}, 
+                      columns=['y', 'x'],
+                      index=dateTimeIndex)
     return df
 
-#reindex dataframe
-#interpolate dataframe
-# resample dataframe
 def reIndexDataFrame (df,deltaDateTime):
+    """Reindex the DataFrame with the
+    all DateTimes that pass through the input delta."""
     dfWD = df[~df.index.duplicated(keep='first')]
-    newIndex = pd.date_range(start=dfWD.index.min(), end=dfWD.index.max(), freq=deltaDateTime +'ms')
+    newIndex = pd.date_range(start=dfWD.index.min(), 
+                             end=dfWD.index.max(), 
+                             freq=deltaDateTime +'ms')
     dfReindexed = dfWD.reindex(newIndex)
     return dfReindexed
 
 def interpolateDataFrame (df,method):
+    """Interpolate the coordinates in new
+    DateTime index, using the method given."""
     dfInterpolated = df.interpolate(method=method)
     return dfInterpolated
 
 def resampleDataFrame (df, deltaDateTime):
+    """Resample the DataFrame, to just use
+    the coordinates that pass through deltaDateTime."""
     dfResampled = df.resample(deltaDateTime+'ms',origin='start').asfreq()
     return dfResampled
-    
+
 def createLayerWithFeatures (df):
+    """Create a QGIS Layer, with the DataFrame
+    Resampled, add features to this layer and
+    the DateTime, as a attribute."""
     rLayer = QgsVectorLayer("Point?crs=EPSG:4326", "resampledLayer", "memory")
     pr = rLayer.dataProvider()
 
@@ -63,6 +77,8 @@ def createLayerWithFeatures (df):
     return rLayer
 
 def executePluginForPoints (layer,field,delta,method,format):
+    """Use all functions needed to execute
+    the Plugin for a point Layer."""
     listX,listY,dateTimeList = extractCoordAndDatetime (layer,field)
     df = create_dataframe (listX,listY,dateTimeList,format)
     dfReindexed = reIndexDataFrame(df,delta)
