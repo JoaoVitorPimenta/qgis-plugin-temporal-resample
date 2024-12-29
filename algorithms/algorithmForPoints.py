@@ -6,6 +6,16 @@ from qgis.core import (QgsVectorLayer,
                        QgsPointXY,
                        QgsGeometry)
 
+def executePluginForPoints (layer,field,delta,method,dateTimeFormat):
+    """Use all functions needed to execute
+    the Plugin for a point Layer."""
+    listX,listY,dateTimeList = extractCoordAndDatetime (layer,field)
+    df = create_dataframe (listX,listY,dateTimeList,dateTimeFormat)
+    dfReindexed = reIndexDataFrame(df,delta)
+    dfInterpolated = interpolateDataFrame(dfReindexed,method)
+    dfResampled = resampleDataFrame(dfInterpolated,delta)
+    layerResampled = createLayerWithFeatures (dfResampled)
+    return layerResampled
 def extractCoordAndDatetime (layer,field):
     """Extract the coordinates
     and Datetime of each feacture in the layer."""
@@ -21,7 +31,6 @@ def extractCoordAndDatetime (layer,field):
         listX.append(X)
         listY.append(Y)
     return listX,listY,dateTimeList
-
 def create_dataframe (listX,listY,dateTimeList,dateTimeFormat):
     """Transform the coordinates
     in a dataframe with datetime as a index."""
@@ -30,7 +39,6 @@ def create_dataframe (listX,listY,dateTimeList,dateTimeFormat):
                       columns=['y', 'x'],
                       index=dateTimeIndex)
     return df
-
 def reIndexDataFrame (df,deltaDateTime):
     """Reindex the DataFrame with the
     all DateTimes that pass through the input delta."""
@@ -40,19 +48,16 @@ def reIndexDataFrame (df,deltaDateTime):
                              freq=deltaDateTime +'ms')
     dfReindexed = dfWD.reindex(newIndex)
     return dfReindexed
-
 def interpolateDataFrame (df,method):
     """Interpolate the coordinates in new
     DateTime index, using the method given."""
     dfInterpolated = df.interpolate(method=method)
     return dfInterpolated
-
 def resampleDataFrame (df, deltaDateTime):
     """Resample the DataFrame, to just use
     the coordinates that pass through deltaDateTime."""
     dfResampled = df.resample(deltaDateTime+'ms',origin='start').asfreq()
     return dfResampled
-
 def createLayerWithFeatures (df):
     """Create a QGIS Layer, with the DataFrame
     Resampled, add features to this layer and
@@ -74,14 +79,3 @@ def createLayerWithFeatures (df):
 
     rLayer.updateExtents()
     return rLayer
-
-def executePluginForPoints (layer,field,delta,method,dateTimeFormat):
-    """Use all functions needed to execute
-    the Plugin for a point Layer."""
-    listX,listY,dateTimeList = extractCoordAndDatetime (layer,field)
-    df = create_dataframe (listX,listY,dateTimeList,dateTimeFormat)
-    dfReindexed = reIndexDataFrame(df,delta)
-    dfInterpolated = interpolateDataFrame(dfReindexed,method)
-    dfResampled = resampleDataFrame(dfInterpolated,delta)
-    layerResampled = createLayerWithFeatures (dfResampled)
-    return layerResampled
