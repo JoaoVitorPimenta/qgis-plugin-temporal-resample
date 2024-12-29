@@ -41,7 +41,7 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterEnum,
                        QgsProcessingParameterDuration,
                        QgsProcessingParameterVectorDestination)
-from .algorithms.TemporalResampleCode import executePluginForPoints
+from .algorithms.algorithmForPoints import executePluginForPoints
 
 class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
     """
