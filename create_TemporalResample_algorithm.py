@@ -35,12 +35,12 @@ from qgis.core import (QgsProcessing,
                        QgsFeatureSink,
                        QgsProcessingAlgorithm,
                        QgsProcessingParameterFeatureSource,
-                       QgsProcessingParameterFeatureSink,
                        QgsProcessingParameterString,
                        QgsProcessingParameterField,
                        QgsProcessingParameterEnum,
                        QgsProcessingParameterDuration,
-                       QgsProcessingParameterVectorDestination)
+                       QgsProcessingParameterVectorDestination,
+                       QgsProcessingParameterNumber)
 from .algorithms.algorithmForPoints import executePluginForPoints
 
 class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
@@ -67,6 +67,7 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
     FORMAT ='FORMAT'
     DELTATIME = 'DELTATIME'
     METHOD = 'METHOD'
+    ORDER = 'ORDER'
 
     def initAlgorithm(self, config):
         """
@@ -112,9 +113,27 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterEnum(
                 self.METHOD,
                 self.tr('Method'),
-                options = ['linear','nearest','slinear','quadratic','cubic','barycentric','polynomial'],
+                options = [
+                           'nearest',
+                           'zero',
+                           'linear',
+                           'quadratic',
+                           'cubic',
+                           'polynomial',
+                           'barycentric',
+                           'time',
+                           'slinear',
+                           'spline'],
                 usesStaticStrings = True
             )
+        )
+
+        self.addParameter(
+            QgsProcessingParameterNumber(
+                self.ORDER,
+                'Order number',
+                type=QgsProcessingParameterNumber.Integer
+                                        )
         )
 
         # We add a feature sink in which to store our processed features (this
@@ -139,8 +158,9 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         format = self.parameterAsString(parameters, self.FORMAT, context)
         deltatime = self.parameterAsString(parameters, self.DELTATIME, context)
         method = self.parameterAsString(parameters, self.METHOD, context)
+        order = self.parameterAsInt(parameters, self.ORDER, context)
 
-        layerResampled = executePluginForPoints(source,field,deltatime,method,format)
+        layerResampled = executePluginForPoints(source,field,deltatime,method,format,order)
 
         (lR, dest_id) = self.parameterAsSink(parameters,
                                               self.VLAYERRESAMPLED,
