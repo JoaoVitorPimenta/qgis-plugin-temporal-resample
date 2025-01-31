@@ -39,7 +39,7 @@ def verifyDateTimeFormatInput (layer,field,dateTimeFormat):
     '''
     features = layer.getFeatures()
     for feature in features:
-        date = feature[field[0]]
+        date = feature[field]
         try:
             datetime.strptime(date, dateTimeFormat)
         except Exception as exc:
