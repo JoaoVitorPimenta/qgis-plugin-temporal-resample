@@ -1,5 +1,4 @@
 import pandas as pd
-from scipy.interpolate import interp1d
 from qgis.PyQt.QtCore import QVariant
 from qgis.core import (QgsVectorLayer,
                        QgsField,
