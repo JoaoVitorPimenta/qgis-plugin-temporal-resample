@@ -106,7 +106,8 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterDuration(
                 self.DELTATIME,
-                self.tr('Delta time')
+                self.tr('Delta time'),
+                defaultValue = 1
             )
         )
 
