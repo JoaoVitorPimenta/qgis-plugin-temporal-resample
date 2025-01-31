@@ -42,6 +42,7 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterVectorDestination,
                        QgsProcessingParameterNumber)
 from .algorithms.algorithmForPoints import executePluginForPoints
+from .exceptions.inputExceptions import verifyDateTimeFormatInput
 
 class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
     """
@@ -159,6 +160,8 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         deltatime = self.parameterAsString(parameters, self.DELTATIME, context)
         method = self.parameterAsString(parameters, self.METHOD, context)
         order = self.parameterAsInt(parameters, self.ORDER, context)
+
+        verifyDateTimeFormatInput(source,field,format)
 
         layerResampled = executePluginForPoints(source,field,deltatime,method,format,order)
 
