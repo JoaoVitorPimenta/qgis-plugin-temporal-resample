@@ -155,7 +155,7 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         # Retrieve the feature source and sink. The 'dest_id' variable is used
         # to uniquely identify the feature sink, and must be included in the
         # dictionary returned by the processAlgorithm function.
-        source = self.parameterAsVectorLayer(parameters, self.VLAYER, context)
+        source = self.parameterAsSource(parameters, self.VLAYER, context)
         field = self.parameterAsString(parameters, self.FIELD, context)
         format = self.parameterAsString(parameters, self.FORMAT, context)
         deltatime = self.parameterAsString(parameters, self.DELTATIME, context)
