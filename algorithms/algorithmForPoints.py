@@ -25,7 +25,7 @@ def extractCoordAndDatetime (layer,field):
     listX = []
     listY = []
     for data in datas:
-        dateTime = data[field[0]]
+        dateTime = data[field]
         dateTimeList.append(dateTime)
         X = data.geometry().asPoint().x()
         Y = data.geometry().asPoint().y()
