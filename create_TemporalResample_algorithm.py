@@ -234,6 +234,29 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
 
     def tr(self, string):
         return QCoreApplication.translate('Processing', string)
+    
+    def shortHelpString(self):
+        """
+        Returns a localised short help string for the algorithm.
+        """
+        return self.tr("""
+        <html>
+            <body>
+                <p>       
+        This tool interpolates points based on a datetime field, an interpolation method and a temporal spacing        
+                </p>
+                <p>
+        <strong>Input Layer: </strong>The layer with each feature representing a point in time.
+        <strong>Field with datetime: </strong>The field with datetime values.
+        <strong>Date time format: </strong>The datetime format that the field values ​​are in.
+        <strong>Delta time: </strong>The new time difference in features after resampling.
+        <strong>Method: </strong>Mathematical method for interpolating coordinates.
+        <strong>Order: </strong>If the method is slinear or polynomial, the order of the polynomial.
+        For more information from methods, see: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html
+                </p>
+            </body>
+        </html>
+                    """)
 
     def createInstance(self):
         return TemporalResampleAlgorithm()
