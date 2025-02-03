@@ -251,7 +251,7 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         <strong>Date time format: </strong>The datetime format that the field values ​​are in.
         <strong>Delta time: </strong>The new time difference in features after resampling.
         <strong>Method: </strong>Mathematical method for interpolating coordinates.
-        <strong>Order: </strong>If the method is slinear or polynomial, the order of the polynomial.
+        <strong>Order: </strong>If the method is slinear or polynomial, the order of the function.
         For more information from methods, see: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html
                 </p>
             </body>
