@@ -43,4 +43,4 @@ def verifyDateTimeFormatInput (layer,field,dateTimeFormat):
         try:
             datetime.strptime(date, dateTimeFormat)
         except Exception as exc:
-            raise QgsProcessingException('Invalid Datetime format!') from exc
+            raise QgsProcessingException('The algorithm stopped on the feature '+str(feature.id())+' because it is not in the indicated datetime format') from exc
