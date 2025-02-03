@@ -4,8 +4,7 @@ from qgis.core import (QgsVectorLayer,
                        QgsField,
                        QgsFeature,
                        QgsPointXY,
-                       QgsGeometry,
-                       QgsProcessingException)
+                       QgsGeometry)
 
 def executePluginForPoints (layer,field,delta,method,dateTimeFormat,order):
     """Use all functions needed to execute
@@ -53,11 +52,6 @@ def interpolateDataFrame (df,method,order):
     """Interpolate the coordinates in new
     DateTime index, using the method given."""
     if method in ('spline', 'polynomial'):
-        if method == 'polynomial':
-            if order % 2 == 0:
-                raise QgsProcessingException(
-                    'The order of the polynomial cannot be even for orders greater than 2, for the polynomial method.'
-                )
         dfInterpolated = df.interpolate(method=method,order=order)
         return dfInterpolated
     dfInterpolated = df.interpolate(method=method)

@@ -44,3 +44,17 @@ def verifyDateTimeFormatInput (layer,field,dateTimeFormat):
             datetime.strptime(date, dateTimeFormat)
         except Exception as exc:
             raise QgsProcessingException('The algorithm stopped on the feature '+str(feature.id())+' because it is not in the indicated datetime format') from exc
+
+def verifyPolynomialOrderForPolynomialMethod(method,order):
+    if method == 'polynomial':
+        if order % 2 == 0:
+            raise QgsProcessingException(
+                'The order of the polynomial cannot be even for orders greater than 2, for the polynomial method.'
+            )
+
+def verifyPolynomialOrderForSplineMethod(method,order):
+    if method == 'spline':
+        if order == 0:
+            raise QgsProcessingException(
+                'The order of the spline cannot be 0, for the spline method.'
+            )
