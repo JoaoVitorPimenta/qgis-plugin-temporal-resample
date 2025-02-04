@@ -254,7 +254,7 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         <strong>Order: </strong>If the method is slinear or polynomial, the order of the function.
         <strong>Output layer: </strong>The path to the resampled layer.
                        
-        For more information from methods, see: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html
+        For more information about methods, see: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html
                 </p>
             </body>
         </html>
