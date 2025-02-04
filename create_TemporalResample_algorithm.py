@@ -144,7 +144,7 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         self.addParameter(
             QgsProcessingParameterVectorDestination(
                 self.VLAYERRESAMPLED,
-                self.tr('Output layer')
+                self.tr('Resampled layer')
             )
         )
 
