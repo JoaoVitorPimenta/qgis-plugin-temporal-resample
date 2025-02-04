@@ -42,7 +42,7 @@ from qgis.core import (QgsProcessing,
                        QgsProcessingParameterVectorDestination,
                        QgsProcessingParameterNumber)
 from .algorithms.algorithmForPoints import executePluginForPoints
-from .exceptions.inputExceptions import verifyDateTimeFormatInput
+from .exceptions.inputExceptions import verifyDateTimeFormatInput,verifyPolynomialOrderForPolynomialMethod,verifyPolynomialOrderForSplineMethod
 
 class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
     """
@@ -163,6 +163,9 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         order = self.parameterAsInt(parameters, self.ORDER, context)
 
         verifyDateTimeFormatInput(source,field,format)
+        verifyPolynomialOrderForSplineMethod(method,order)
+        verifyPolynomialOrderForPolynomialMethod(method,order)
+
 
         layerResampled = executePluginForPoints(source,field,deltatime,method,format,order)
 
