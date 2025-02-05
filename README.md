@@ -19,27 +19,28 @@ normally found in the path:   C:\Users\User\AppData\Roaming\QGIS\QGIS3\profiles\
 This plugin only has one tool, which is:
 
 ## Temporal Resample
-This tool create a vectorized inundation area from a DEM, a area and from a parameter provided by the user, which could be elevation, height, area or volume
+This tool interpolates the geographic coordinates of a layer of points based on a pre-established mathematical method and temporal spacing, making the new layer have points equally spaced in time.
 
-**Input Layer:** The layer with each feature representing a point in time.
-**Field with datetime:** The field with datetime values.
-**Date time format:** The datetime format that the field values ​​are in.
-**Delta time:** The new time difference in features after resampling.
-**Method:** Mathematical method for interpolating coordinates.
-**Order:** If the method is slinear or polynomial, the order of the function.
+**Inputs:**  
+**Input Layer:** The layer with each feature representing a point in time   
+**Field with datetime:** The field with datetime values  
+**Date time format:** The datetime format that the field values ​​are in  
+**Delta time:** The new time difference in features after resampling  
+**Method:** Mathematical method for interpolating coordinates  
+**Order:** If the method is slinear or polynomial, the order of the function.  
                        
-**Output:**  
-**Resampled layer:** The path to the resampled layer.
+**Output:**   
+**Resampled layer:** The path to the resampled layer  
 
 ## Example of use
 You have data from points that are variously spaced in time and you want to standardize them to data every 5 minutes, interpolating the data using the spline method with order 3, to have a smoother curve
 
 The sequence of images represents:   
-1: Point layer with datetime field
-2: Point layer attribute table 
-3: Parameters for Temporal Resample processing 
-4: Resampled point layer 
-5: Resampled point layer attribute table
+1: Point layer with datetime field   
+2: Point layer attribute table   
+3: Parameters for Temporal Resample processing    
+4: Resampled point layer   
+5: Resampled point layer attribute table  
 
 ![Point layer with datetime field](./imgsREADME/1.png)
 ![Point layer attribute table](./imgsREADME/2.png)
