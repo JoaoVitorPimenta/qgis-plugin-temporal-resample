@@ -30,6 +30,8 @@ __copyright__ = '(C) 2024 by João Vitor Pimenta'
 
 __revision__ = '$Format:%H$'
 
+import os
+from qgis.PyQt.QtGui import QIcon
 from qgis.core import QgsProcessingProvider
 from .create_TemporalResample_algorithm import TemporalResampleAlgorithm
 
@@ -79,7 +81,7 @@ class TemporalResampleProvider(QgsProcessingProvider):
         Should return a QIcon which is used for your provider inside
         the Processing toolbox.
         """
-        return QgsProcessingProvider.icon(self)
+        return QIcon(os.path.join(os.path.dirname(__file__), "icon.png"))
 
     def longName(self):
         """

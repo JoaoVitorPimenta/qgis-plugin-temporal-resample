@@ -30,6 +30,8 @@ __copyright__ = '(C) 2024 by João Vitor Pimenta'
 
 __revision__ = '$Format:%H$'
 
+import os
+from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import (QgsProcessing,
                        QgsFeatureSink,
@@ -234,6 +236,13 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         formatting characters.
         """
         return ''
+
+    def icon(self):
+        """
+        Should return a QIcon which is used for your provider inside
+        the Processing toolbox.
+        """
+        return QIcon(os.path.join(os.path.dirname(__file__), "icon.png"))
 
     def tr(self, string):
         return QCoreApplication.translate('Processing', string)
