@@ -4,7 +4,7 @@
 
 [general]
 name=Temporal Resample
-qgisMinimumVersion=3.0
+qgisMinimumVersion=3.28
 description=This plugin resamples a vector layer based on a delta time
 version=0.1
 author=João Vitor Pimenta
@@ -12,8 +12,8 @@ email=jvpjoaopimenta@gmail.com
 
 about=This plugin uses as input a user vector layer that has a temporal field and resamples it to a new time spacing provided by the user.
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/JoaoVitorPimenta/qgis-plugin-temporal-resample/issues
+repository=https://github.com/JoaoVitorPimenta/qgis-plugin-temporal-resample
 # End of mandatory metadata
 
 # Recommended items:
@@ -25,7 +25,7 @@ hasProcessingProvider=yes
 # Tags are comma separated with spaces allowed
 tags=python
 
-homepage=http://homepage
+homepage=https://github.com/JoaoVitorPimenta/qgis-plugin-temporal-resample
 category=Analysis
 icon=icon.png
 # experimental flag
