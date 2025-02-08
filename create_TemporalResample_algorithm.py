@@ -267,6 +267,8 @@ class TemporalResampleAlgorithm(QgsProcessingAlgorithm):
         <strong>Resampled layer: </strong>The path to the resampled layer.
                        
         For more information about methods, see: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.interpolate.html
+        
+        For more information about datetime formats, see: https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html
                 </p>
             </body>
         </html>
