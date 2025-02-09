@@ -5,7 +5,7 @@
 [general]
 name=Temporal Resample
 qgisMinimumVersion=3.28
-description=This plugin resamples a vector layer based on a delta time
+description=This plugin resamples a vector layer based on a delta time.
 version=0.1
 author=João Vitor Pimenta
 email=jvpjoaopimenta@gmail.com
