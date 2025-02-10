@@ -23,7 +23,7 @@ hasProcessingProvider=yes
 # changelog=
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=python, temporal, resample, interpolation, points
 
 homepage=https://github.com/JoaoVitorPimenta/qgis-plugin-temporal-resample
 category=Analysis
